@@ -1,0 +1,1328 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aditya DSA Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dsa_notes_interview_cp.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-row">
+          <div class="brand-mark">AD</div>
+          <div class="brand-copy">
+            <h1>Aditya DSA Hub</h1>
+            <div class="brand-links">
+              <a class="social-link brand-social" href="https://www.linkedin.com/in/aditya-mohan-jha-3b2570206/" target="_blank" rel="noreferrer" title="LinkedIn">in</a>
+              <a class="social-link brand-social" href="https://leetcode.com/u/AdityaMohanJha/" target="_blank" rel="noreferrer" title="LeetCode">LC</a>
+              <a class="social-link brand-social" href="https://github.com/ADITYA9571" target="_blank" rel="noreferrer" title="GitHub">GH</a>
+              <a class="social-link brand-social" href="https://www.codechef.com/users/aadi_05_03" target="_blank" rel="noreferrer" title="CodeChef">CC</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-tools">
+        <div class="search-shell">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10.5 18a7.5 7.5 0 1 1 5.3-2.2l4.2 4.2-1.4 1.4-4.2-4.2A7.47 7.47 0 0 1 10.5 18Zm0-13a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z" fill="currentColor"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search sections, topics, or patterns">
+        </div>
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="core">Core</button>
+          <button class="filter-chip" data-filter="interview">Interview</button>
+          <button class="filter-chip" data-filter="cp">CP</button>
+        </div>
+      </div>
+
+      <div class="sidebar-nav" id="navList"></div>
+    </aside>
+
+    <main class="main">
+      <div class="main-scroll" id="mainScroll">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">Menu</button>
+            <div>
+              <p class="eyebrow">Developer Dashboard</p>
+              <h2 class="topbar-title">DSA Command Center</h2>
+              <p class="topbar-subtitle" id="topbarSubtitle">Daily revision system for interviews and competitive programming.</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div class="hero-card">
+            <h1 class="hero-title">Build your <span>daily DSA cockpit</span></h1>
+            <p class="hero-copy">
+              Product-level notes, clean navigation, progress tracking, and revision-friendly cards for interviews, contests, and repeated practice sessions.
+            </p>
+            <div class="hero-pills">
+              <div class="hero-pill">Live search + filters</div>
+              <div class="hero-pill">Section progress tracking</div>
+              <div class="hero-pill">Copy-ready code blocks</div>
+              <div class="hero-pill">Responsive glass dashboard</div>
+            </div>
+          </div>
+          <div class="hero-side">
+            <p class="eyebrow">Mission Status</p>
+            <h3 style="margin:0;font-size:1.35rem;">Keep the grind visible</h3>
+            <p style="margin:10px 0 18px;color:var(--text-soft);line-height:1.7;">
+              Mark concepts done, scan your weak zones quickly, and use the page like a personal algorithm workspace instead of static notes.
+            </p>
+            <div class="progress-track" style="margin-bottom:10px;">
+              <div class="progress-fill" id="heroProgressFill" style="width:0%;"></div>
+            </div>
+            <div id="heroProgressText" class="stat-sub">0% complete</div>
+          </div>
+        </section>
+
+        <section class="dashboard-grid" id="dashboardStats"></section>
+        <section id="mainArea"></section>
+      </div>
+    </main>
+  </div>
+
+  <button class="fab" id="backToTop" type="button">Back to top</button>
+
+  <script>
+    const DATA = [
+      {
+        id: "fundamentals",
+        label: "Fundamentals",
+        dot: "#79b7ff",
+        topics: [
+          {
+            title: "Time & Space Complexity",
+            badge: "core",
+            theory: "Use Big-O to compare growth rates, drop constants and lower-order terms, and optimize for the best practical asymptotic bound. In interviews and contests, recognizing when O(n^2) must become O(n log n) or O(n) is often the whole game.",
+            complexity: [["O(1)", "Constant"], ["O(log n)", "Logarithmic"], ["O(n)", "Linear"], ["O(n log n)", "Linearithmic"], ["O(n^2)", "Quadratic"]],
+            code: `<span class="cm"># Complexity reference</span>
+<span class="kw">def</span> <span class="fn">constant</span>(arr):
+    <span class="kw">return</span> arr[<span class="nm">0</span>]
+
+<span class="kw">def</span> <span class="fn">linear_search</span>(arr, x):
+    <span class="kw">for</span> v <span class="kw">in</span> arr:
+        <span class="kw">if</span> v == x:
+            <span class="kw">return</span> <span class="kw">True</span>
+    <span class="kw">return</span> <span class="kw">False</span>
+
+<span class="kw">def</span> <span class="fn">binary_search</span>(arr, x):
+    lo, hi = <span class="nm">0</span>, len(arr) - <span class="nm">1</span>
+    <span class="kw">while</span> lo <= hi:
+        mid = (lo + hi) >> <span class="nm">1</span>
+        <span class="kw">if</span> arr[mid] == x:
+            <span class="kw">return</span> mid
+        <span class="kw">if</span> arr[mid] < x:
+            lo = mid + <span class="nm">1</span>
+        <span class="kw">else</span>:
+            hi = mid - <span class="nm">1</span>
+    <span class="kw">return</span> -<span class="nm">1</span>`,
+            tip: "Know the complexity of your language primitives too. In Python, `append` is amortized O(1), but `insert(0, x)` and `x in list` are O(n)."
+          },
+          {
+            title: "Recursion",
+            badge: "both",
+            theory: "Every recursive solution needs a base case and a smaller subproblem. Draw the recursion tree when stuck, and add memoization when you see repeated work.",
+            code: `<span class="kw">from</span> functools <span class="kw">import</span> lru_cache
+
+<span class="kw">def</span> <span class="fn">factorial</span>(n):
+    <span class="kw">if</span> n <= <span class="nm">1</span>:
+        <span class="kw">return</span> <span class="nm">1</span>
+    <span class="kw">return</span> n * factorial(n - <span class="nm">1</span>)
+
+<span class="dec">@lru_cache</span>(maxsize=<span class="kw">None</span>)
+<span class="kw">def</span> <span class="fn">fib</span>(n):
+    <span class="kw">if</span> n <= <span class="nm">1</span>:
+        <span class="kw">return</span> n
+    <span class="kw">return</span> fib(n - <span class="nm">1</span>) + fib(n - <span class="nm">2</span>)`,
+            tip: "Python recursion depth is limited by default. For deep trees in CP, use `sys.setrecursionlimit()` carefully or switch to iteration."
+          },
+          {
+            title: "Divide & Conquer",
+            badge: "both",
+            theory: "Split into independent halves, solve recursively, then combine. Merge sort, quick sort, binary search, closest pair, and many geometry and DP optimizations all build on this pattern.",
+            code: `<span class="kw">def</span> <span class="fn">merge_sort</span>(arr):
+    <span class="kw">if</span> len(arr) <= <span class="nm">1</span>:
+        <span class="kw">return</span> arr
+    mid = len(arr) // <span class="nm">2</span>
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    <span class="kw">return</span> merge(left, right)
+
+<span class="kw">def</span> <span class="fn">merge</span>(left, right):
+    res = []
+    i = j = <span class="nm">0</span>
+    <span class="kw">while</span> i < len(left) <span class="kw">and</span> j < len(right):
+        <span class="kw">if</span> left[i] <= right[j]:
+            res.append(left[i]); i += <span class="nm">1</span>
+        <span class="kw">else</span>:
+            res.append(right[j]); j += <span class="nm">1</span>
+    <span class="kw">return</span> res + left[i:] + right[j:]`
+          }
+        ]
+      },
+      {
+        id: "arrays",
+        label: "Arrays & Strings",
+        dot: "#46d5bc",
+        topics: [
+          {
+            title: "Two Pointers",
+            badge: "both",
+            theory: "Use converging or same-direction pointers to reduce O(n^2) scans to O(n) when the array is sorted or the condition is monotone.",
+            complexity: [["O(n)", "Time"], ["O(1)", "Space"]],
+            code: `<span class="kw">def</span> <span class="fn">two_sum_sorted</span>(arr, target):
+    lo, hi = <span class="nm">0</span>, len(arr) - <span class="nm">1</span>
+    <span class="kw">while</span> lo < hi:
+        s = arr[lo] + arr[hi]
+        <span class="kw">if</span> s == target:
+            <span class="kw">return</span> (lo, hi)
+        <span class="kw">if</span> s < target:
+            lo += <span class="nm">1</span>
+        <span class="kw">else</span>:
+            hi -= <span class="nm">1</span>`,
+            tip: "Always ask whether sorting or monotonicity makes a two-pointer solution possible."
+          },
+          {
+            title: "Sliding Window",
+            badge: "both",
+            theory: "A window expands and contracts while preserving a condition. Each element usually enters and leaves once, giving O(n) behavior.",
+            code: `<span class="kw">def</span> <span class="fn">longest_unique</span>(s):
+    seen = {}
+    left = ans = <span class="nm">0</span>
+    <span class="kw">for</span> right, ch <span class="kw">in</span> enumerate(s):
+        <span class="kw">if</span> ch <span class="kw">in</span> seen <span class="kw">and</span> seen[ch] >= left:
+            left = seen[ch] + <span class="nm">1</span>
+        seen[ch] = right
+        ans = max(ans, right - left + <span class="nm">1</span>)
+    <span class="kw">return</span> ans`
+          },
+          {
+            title: "Prefix Sum",
+            badge: "both",
+            theory: "Precompute cumulative totals so subarray or submatrix queries become O(1). This pattern pairs especially well with hashing and range-query problems.",
+            code: `<span class="kw">def</span> <span class="fn">build_prefix</span>(arr):
+    pre = [<span class="nm">0</span>] * (len(arr) + <span class="nm">1</span>)
+    <span class="kw">for</span> i, v <span class="kw">in</span> enumerate(arr):
+        pre[i + <span class="nm">1</span>] = pre[i] + v
+    <span class="kw">return</span> pre
+
+<span class="kw">def</span> <span class="fn">range_sum</span>(pre, l, r):
+    <span class="kw">return</span> pre[r + <span class="nm">1</span>] - pre[l]`
+          },
+          {
+            title: "Kadane's Algorithm",
+            badge: "both",
+            theory: "At each position, either extend the current subarray or restart from the current value. This gives the maximum subarray sum in linear time.",
+            complexity: [["O(n)", "Time"], ["O(1)", "Space"]],
+            code: `<span class="kw">def</span> <span class="fn">kadane</span>(arr):
+    cur = best = arr[<span class="nm">0</span>]
+    <span class="kw">for</span> v <span class="kw">in</span> arr[<span class="nm">1</span>:]:
+        cur = max(v, cur + v)
+        best = max(best, cur)
+    <span class="kw">return</span> best`
+          }
+        ]
+      },
+      {
+        id: "search_sort",
+        label: "Searching & Sorting",
+        dot: "#9086ff",
+        topics: [
+          {
+            title: "Binary Search",
+            badge: "both",
+            theory: "Binary search works on sorted arrays and monotone predicates. Learn exact search and answer-space search as separate templates.",
+            complexity: [["O(log n)", "Time"], ["O(1)", "Space"]],
+            code: `<span class="kw">def</span> <span class="fn">bin_search</span>(arr, x):
+    lo, hi = <span class="nm">0</span>, len(arr) - <span class="nm">1</span>
+    <span class="kw">while</span> lo <= hi:
+        mid = (lo + hi) >> <span class="nm">1</span>
+        <span class="kw">if</span> arr[mid] == x:
+            <span class="kw">return</span> mid
+        <span class="kw">if</span> arr[mid] < x:
+            lo = mid + <span class="nm">1</span>
+        <span class="kw">else</span>:
+            hi = mid - <span class="nm">1</span>
+    <span class="kw">return</span> -<span class="nm">1</span>`,
+            tip: "If the question asks for first valid, last valid, or minimum feasible, think boundary search instead of exact search."
+          },
+          {
+            title: "Advanced Binary Search Patterns",
+            badge: "both",
+            theory: "Master lower bound, upper bound, first and last occurrence, rotated arrays, peak element, and binary search on monotone functions.",
+            code: `<span class="kw">import</span> bisect
+
+lb = bisect.bisect_left(arr, x)
+ub = bisect.bisect_right(arr, x)
+
+<span class="kw">def</span> <span class="fn">find_peak</span>(nums):
+    lo, hi = <span class="nm">0</span>, len(nums) - <span class="nm">1</span>
+    <span class="kw">while</span> lo < hi:
+        mid = (lo + hi) >> <span class="nm">1</span>
+        <span class="kw">if</span> nums[mid] < nums[mid + <span class="nm">1</span>]:
+            lo = mid + <span class="nm">1</span>
+        <span class="kw">else</span>:
+            hi = mid
+    <span class="kw">return</span> lo`
+          },
+          {
+            title: "Merge Sort",
+            badge: "both",
+            theory: "Stable O(n log n) sorting. Also the standard way to count inversions or reason about ordered merges.",
+            code: `<span class="kw">def</span> <span class="fn">merge_sort</span>(arr):
+    <span class="kw">if</span> len(arr) <= <span class="nm">1</span>:
+        <span class="kw">return</span> arr
+    mid = len(arr) // <span class="nm">2</span>
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    <span class="kw">return</span> merge(left, right)`
+          },
+          {
+            title: "Quick Sort",
+            badge: "interview",
+            theory: "Average O(n log n), in-place, and built around partitioning. Good for partition logic understanding even though Python's built-in sort is better in practice.",
+            code: `<span class="kw">def</span> <span class="fn">partition</span>(arr, lo, hi):
+    pivot = arr[hi]
+    i = lo
+    <span class="kw">for</span> j <span class="kw">in</span> range(lo, hi):
+        <span class="kw">if</span> arr[j] <= pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += <span class="nm">1</span>
+    arr[i], arr[hi] = arr[hi], arr[i]
+    <span class="kw">return</span> i`
+          },
+          {
+            title: "Interval Problems",
+            badge: "interview",
+            theory: "Sort intervals by start or end time, then merge, insert, or greedily keep the best next interval. This is a top interview pattern.",
+            code: `<span class="kw">def</span> <span class="fn">merge_intervals</span>(intervals):
+    intervals.sort()
+    merged = []
+    <span class="kw">for</span> s, e <span class="kw">in</span> intervals:
+        <span class="kw">if not</span> merged <span class="kw">or</span> merged[-<span class="nm">1</span>][<span class="nm">1</span>] < s:
+            merged.append([s, e])
+        <span class="kw">else</span>:
+            merged[-<span class="nm">1</span>][<span class="nm">1</span>] = max(merged[-<span class="nm">1</span>][<span class="nm">1</span>], e)
+    <span class="kw">return</span> merged`
+          },
+          {
+            title: "Heap Patterns",
+            badge: "both",
+            theory: "Use heaps for top-k queries, streaming medians, kth smallest or largest, merge k lists, and repeated best-choice extraction.",
+            code: `<span class="kw">import</span> heapq
+<span class="kw">from</span> collections <span class="kw">import</span> Counter
+
+<span class="kw">def</span> <span class="fn">top_k_frequent</span>(nums, k):
+    freq = Counter(nums)
+    <span class="kw">return</span> [x <span class="kw">for</span> x, _ <span class="kw">in</span> heapq.nlargest(k, freq.items(), key=<span class="kw">lambda</span> p: p[<span class="nm">1</span>])]`,
+            tip: "If the prompt says top k, kth, smallest so far, or stream, test a heap approach early."
+          }
+        ]
+      },
+      {
+        id: "hashing",
+        label: "Hashing",
+        dot: "#ffbe68",
+        topics: [
+          {
+            title: "HashMap / Dictionary",
+            badge: "both",
+            theory: "Python dictionaries give average O(1) insert, lookup, and delete. They are the basis for frequency maps, caches, complement lookups, and grouping problems.",
+            code: `<span class="kw">from</span> collections <span class="kw">import</span> Counter, defaultdict
+
+freq = Counter(<span class="st">"hello world"</span>)
+
+<span class="kw">def</span> <span class="fn">two_sum</span>(nums, target):
+    seen = {}
+    <span class="kw">for</span> i, x <span class="kw">in</span> enumerate(nums):
+        need = target - x
+        <span class="kw">if</span> need <span class="kw">in</span> seen:
+            <span class="kw">return</span> [seen[need], i]
+        seen[x] = i`
+          },
+          {
+            title: "HashSet & Frequency Counting",
+            badge: "both",
+            theory: "Sets are perfect for O(1) membership tests, deduplication, and sequence detection. Combine prefix sums and maps when sums or counts matter.",
+            code: `<span class="kw">def</span> <span class="fn">longest_consecutive</span>(nums):
+    s = set(nums)
+    best = <span class="nm">0</span>
+    <span class="kw">for</span> x <span class="kw">in</span> s:
+        <span class="kw">if</span> x - <span class="nm">1</span> <span class="kw">not in</span> s:
+            cur = x
+            length = <span class="nm">0</span>
+            <span class="kw">while</span> cur <span class="kw">in</span> s:
+                cur += <span class="nm">1</span>
+                length += <span class="nm">1</span>
+            best = max(best, length)
+    <span class="kw">return</span> best`
+          }
+        ]
+      },
+      {
+        id: "linked_lists",
+        label: "Linked Lists",
+        dot: "#ff8fa6",
+        topics: [
+          {
+            title: "Singly Linked List",
+            badge: "interview",
+            theory: "Know reverse, merge, remove, and traversal patterns. The interview value comes from pointer discipline, not from the data structure itself.",
+            code: `<span class="kw">class</span> <span class="fn">ListNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, val=<span class="nm">0</span>, nxt=<span class="kw">None</span>):
+        self.val = val
+        self.next = nxt
+
+<span class="kw">def</span> <span class="fn">reverse</span>(head):
+    prev = <span class="kw">None</span>
+    <span class="kw">while</span> head:
+        nxt = head.next
+        head.next = prev
+        prev = head
+        head = nxt
+    <span class="kw">return</span> prev`
+          },
+          {
+            title: "Fast & Slow Pointer",
+            badge: "interview",
+            theory: "Use Floyd's tortoise-hare technique for cycle detection and middle-node problems. It is compact and appears often.",
+            code: `<span class="kw">def</span> <span class="fn">has_cycle</span>(head):
+    slow = fast = head
+    <span class="kw">while</span> fast <span class="kw">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        <span class="kw">if</span> slow <span class="kw">is</span> fast:
+            <span class="kw">return</span> <span class="kw">True</span>
+    <span class="kw">return</span> <span class="kw">False</span>`
+          }
+        ]
+      },
+      {
+        id: "stacks_queues",
+        label: "Stacks & Queues",
+        dot: "#67e2c3",
+        topics: [
+          {
+            title: "Stack",
+            badge: "both",
+            theory: "Use a stack for matching, rollback, parsing, DFS, and monotonic behavior.",
+            code: `<span class="kw">def</span> <span class="fn">is_valid</span>(s):
+    stack = []
+    pairs = {<span class="st">')'</span>: <span class="st">'('</span>, <span class="st">']'</span>: <span class="st">'['</span>, <span class="st">'}'</span>: <span class="st">'{'</span>}
+    <span class="kw">for</span> ch <span class="kw">in</span> s:
+        <span class="kw">if</span> ch <span class="kw">in</span> pairs:
+            <span class="kw">if not</span> stack <span class="kw">or</span> stack[-<span class="nm">1</span>] != pairs[ch]:
+                <span class="kw">return</span> <span class="kw">False</span>
+            stack.pop()
+        <span class="kw">else</span>:
+            stack.append(ch)
+    <span class="kw">return</span> <span class="kw">not</span> stack`
+          },
+          {
+            title: "Monotonic Stack",
+            badge: "both",
+            theory: "Maintain elements in increasing or decreasing order to solve next greater element, histogram, span, and temperature problems in O(n).",
+            code: `<span class="kw">def</span> <span class="fn">next_greater</span>(arr):
+    res = [-<span class="nm">1</span>] * len(arr)
+    stack = []
+    <span class="kw">for</span> i, v <span class="kw">in</span> enumerate(arr):
+        <span class="kw">while</span> stack <span class="kw">and</span> arr[stack[-<span class="nm">1</span>]] < v:
+            res[stack.pop()] = v
+        stack.append(i)
+    <span class="kw">return</span> res`
+          },
+          {
+            title: "Queue / Deque & Priority Queue",
+            badge: "both",
+            theory: "Use `deque` for O(1) pops from both ends and `heapq` for efficient minimum extraction.",
+            code: `<span class="kw">from</span> collections <span class="kw">import</span> deque
+<span class="kw">import</span> heapq
+
+dq = deque([<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>])
+h = []
+heapq.heappush(h, <span class="nm">5</span>)
+heapq.heappush(h, <span class="nm">1</span>)`
+          }
+        ]
+      },
+      {
+        id: "trees",
+        label: "Trees",
+        dot: "#74bcff",
+        topics: [
+          {
+            title: "Binary Tree Traversals",
+            badge: "both",
+            theory: "Inorder, preorder, postorder, and level-order all reveal a different structural question. Build comfort with both recursive and iterative forms.",
+            code: `<span class="kw">def</span> <span class="fn">inorder</span>(root):
+    <span class="kw">if not</span> root:
+        <span class="kw">return</span> []
+    <span class="kw">return</span> inorder(root.left) + [root.val] + inorder(root.right)`
+          },
+          {
+            title: "Height, Diameter & LCA",
+            badge: "interview",
+            theory: "These are classic postorder-style tree problems where child information rolls upward.",
+            code: `<span class="kw">def</span> <span class="fn">height</span>(root):
+    <span class="kw">if not</span> root:
+        <span class="kw">return</span> <span class="nm">0</span>
+    <span class="kw">return</span> <span class="nm">1</span> + max(height(root.left), height(root.right))`
+          },
+          {
+            title: "Trie (Prefix Tree)",
+            badge: "both",
+            theory: "Tries store prefixes explicitly and make string insert and prefix lookup O(length). Great for autocomplete and dictionary problems.",
+            code: `<span class="kw">class</span> <span class="fn">Trie</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.root = {}
+
+    <span class="kw">def</span> <span class="fn">insert</span>(self, word):
+        node = self.root
+        <span class="kw">for</span> ch <span class="kw">in</span> word:
+            node = node.setdefault(ch, {})
+        node[<span class="st">'#'</span>] = <span class="kw">True</span>`
+          }
+        ]
+      },
+      {
+        id: "graphs",
+        label: "Graphs",
+        dot: "#958bff",
+        topics: [
+          {
+            title: "Graph Representation & BFS/DFS",
+            badge: "both",
+            theory: "Adjacency lists dominate in practice. BFS handles shortest paths in unweighted graphs, while DFS handles exploration, cycle detection, and topology.",
+            code: `<span class="kw">from</span> collections <span class="kw">import</span> defaultdict, deque
+
+<span class="kw">def</span> <span class="fn">build_graph</span>(edges, directed=<span class="kw">False</span>):
+    g = defaultdict(list)
+    <span class="kw">for</span> u, v <span class="kw">in</span> edges:
+        g[u].append(v)
+        <span class="kw">if not</span> directed:
+            g[v].append(u)
+    <span class="kw">return</span> g`
+          },
+          {
+            title: "Multi-source BFS & Grid Traversal",
+            badge: "both",
+            theory: "Push all sources at once for nearest-source distances. In grids, each cell becomes a graph node and direction arrays drive traversal.",
+            complexity: [["O(V + E)", "Graph"], ["O(RC)", "Grid"]],
+            code: `<span class="kw">from</span> collections <span class="kw">import</span> deque
+
+<span class="kw">def</span> <span class="fn">multi_source_bfs</span>(g, sources):
+    dist = {s: <span class="nm">0</span> <span class="kw">for</span> s <span class="kw">in</span> sources}
+    q = deque(sources)
+    <span class="kw">while</span> q:
+        u = q.popleft()
+        <span class="kw">for</span> v <span class="kw">in</span> g[u]:
+            <span class="kw">if</span> v <span class="kw">not in</span> dist:
+                dist[v] = dist[u] + <span class="nm">1</span>
+                q.append(v)
+    <span class="kw">return</span> dist`
+          },
+          {
+            title: "Topological Sort & Cycle Detection",
+            badge: "both",
+            theory: "Directed acyclic graphs need ordering constraints. Kahn's algorithm and DFS coloring are the two standard templates.",
+            code: `<span class="kw">def</span> <span class="fn">topo_sort</span>(n, edges):
+    indeg = [<span class="nm">0</span>] * n
+    g = [[] <span class="kw">for</span> _ <span class="kw">in</span> range(n)]
+    <span class="kw">for</span> u, v <span class="kw">in</span> edges:
+        g[u].append(v)
+        indeg[v] += <span class="nm">1</span>`
+          },
+          {
+            title: "Dijkstra's Shortest Path",
+            badge: "both",
+            theory: "Use a min-heap for single-source shortest paths when edge weights are non-negative.",
+            code: `<span class="kw">import</span> heapq
+
+<span class="kw">def</span> <span class="fn">dijkstra</span>(graph, src, n):
+    dist = [float(<span class="st">'inf'</span>)] * n
+    dist[src] = <span class="nm">0</span>
+    pq = [(<span class="nm">0</span>, src)]
+    <span class="kw">while</span> pq:
+        d, u = heapq.heappop(pq)
+        <span class="kw">if</span> d > dist[u]:
+            <span class="kw">continue</span>
+        <span class="kw">for</span> v, w <span class="kw">in</span> graph[u]:
+            nd = d + w
+            <span class="kw">if</span> nd < dist[v]:
+                dist[v] = nd
+                heapq.heappush(pq, (nd, v))
+    <span class="kw">return</span> dist`
+          },
+          {
+            title: "MST (Kruskal) + Union-Find",
+            badge: "cp",
+            theory: "Disjoint Set Union is the backbone of Kruskal's minimum spanning tree and many offline connectivity problems.",
+            code: `<span class="kw">class</span> <span class="fn">DSU</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n):
+        self.parent = list(range(n))
+
+    <span class="kw">def</span> <span class="fn">find</span>(self, x):
+        <span class="kw">if</span> self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        <span class="kw">return</span> self.parent[x]`
+          }
+        ]
+      },
+      {
+        id: "dp",
+        label: "Dynamic Programming",
+        dot: "#48d3b8",
+        topics: [
+          {
+            title: "Memoization & Tabulation",
+            badge: "both",
+            theory: "Memoization is top-down with caching, tabulation is bottom-up with ordered state filling. Both solve overlapping subproblems with explicit state reuse.",
+            code: `<span class="kw">from</span> functools <span class="kw">import</span> lru_cache
+
+<span class="kw">def</span> <span class="fn">coin_change_memo</span>(coins, amount):
+    <span class="dec">@lru_cache</span>(maxsize=<span class="kw">None</span>)
+    <span class="kw">def</span> <span class="fn">dp</span>(rem):
+        <span class="kw">if</span> rem == <span class="nm">0</span>:
+            <span class="kw">return</span> <span class="nm">0</span>
+        <span class="kw">if</span> rem < <span class="nm">0</span>:
+            <span class="kw">return</span> float(<span class="st">'inf'</span>)
+        <span class="kw">return</span> min(dp(rem - c) + <span class="nm">1</span> <span class="kw">for</span> c <span class="kw">in</span> coins)
+    <span class="kw">return</span> dp(amount)`
+          },
+          {
+            title: "Core DP Archetypes",
+            badge: "both",
+            theory: "The backbone patterns are 0/1 knapsack, unbounded knapsack, LIS, LCS, and interval DP like matrix chain multiplication.",
+            complexity: [["O(nW)", "Knapsack"], ["O(n log n)", "LIS"], ["O(mn)", "LCS"]],
+            code: `<span class="cm"># 0/1 Knapsack</span>
+<span class="kw">def</span> <span class="fn">knapsack_01</span>(weights, values, W):
+    dp = [<span class="nm">0</span>] * (W + <span class="nm">1</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> range(len(weights)):
+        <span class="kw">for</span> w <span class="kw">in</span> range(W, weights[i] - <span class="nm">1</span>, -<span class="nm">1</span>):
+            dp[w] = max(dp[w], dp[w - weights[i]] + values[i])
+    <span class="kw">return</span> dp[W]
+
+<span class="cm"># Unbounded Knapsack</span>
+<span class="kw">def</span> <span class="fn">unbounded_knapsack</span>(weights, values, W):
+    dp = [<span class="nm">0</span>] * (W + <span class="nm">1</span>)
+    <span class="kw">for</span> w <span class="kw">in</span> range(W + <span class="nm">1</span>):
+        <span class="kw">for</span> i <span class="kw">in</span> range(len(weights)):
+            <span class="kw">if</span> weights[i] <= w:
+                dp[w] = max(dp[w], dp[w - weights[i]] + values[i])
+    <span class="kw">return</span> dp[W]`,
+            tip: "When the state looks like prefix + capacity or prefix + index, you are often in knapsack territory."
+          },
+          {
+            title: "DP on Subsequences & Strings",
+            badge: "both",
+            theory: "LIS and LCS are the standard mental models for subsequence and string DP. They show how transitions depend on previous prefix states.",
+            code: `<span class="cm"># LIS</span>
+<span class="kw">import</span> bisect
+<span class="kw">def</span> <span class="fn">lis</span>(arr):
+    tails = []
+    <span class="kw">for</span> x <span class="kw">in</span> arr:
+        i = bisect.bisect_left(tails, x)
+        <span class="kw">if</span> i == len(tails):
+            tails.append(x)
+        <span class="kw">else</span>:
+            tails[i] = x
+    <span class="kw">return</span> len(tails)
+
+<span class="cm"># LCS</span>
+<span class="kw">def</span> <span class="fn">lcs</span>(a, b):
+    m, n = len(a), len(b)
+    dp = [[<span class="nm">0</span>] * (n + <span class="nm">1</span>) <span class="kw">for</span> _ <span class="kw">in</span> range(m + <span class="nm">1</span>)]
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">1</span>, m + <span class="nm">1</span>):
+        <span class="kw">for</span> j <span class="kw">in</span> range(<span class="nm">1</span>, n + <span class="nm">1</span>):
+            <span class="kw">if</span> a[i - <span class="nm">1</span>] == b[j - <span class="nm">1</span>]:
+                dp[i][j] = dp[i - <span class="nm">1</span>][j - <span class="nm">1</span>] + <span class="nm">1</span>
+            <span class="kw">else</span>:
+                dp[i][j] = max(dp[i - <span class="nm">1</span>][j], dp[i][j - <span class="nm">1</span>])
+    <span class="kw">return</span> dp[m][n]`
+          },
+          {
+            title: "Bitmask DP",
+            badge: "cp",
+            theory: "Represent subsets as integers when n is small. This is the core of TSP, assignment, and subset-state DP.",
+            code: `<span class="kw">def</span> <span class="fn">tsp</span>(dist):
+    n = len(dist)
+    inf = float(<span class="st">'inf'</span>)
+    dp = [[inf] * n <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="nm">1</span> << n)]
+    dp[<span class="nm">1</span>][<span class="nm">0</span>] = <span class="nm">0</span>`
+          }
+        ]
+      },
+      {
+        id: "greedy",
+        label: "Greedy & Backtracking",
+        dot: "#ffbe68",
+        topics: [
+          {
+            title: "Greedy Algorithms",
+            badge: "both",
+            theory: "Make the locally best choice and prove why it stays globally safe. Exchange arguments and ordering choices are the usual justification tools.",
+            code: `<span class="kw">def</span> <span class="fn">max_activities</span>(intervals):
+    intervals.sort(key=<span class="kw">lambda</span> x: x[<span class="nm">1</span>])
+    count = <span class="nm">0</span>
+    end = float(<span class="st">'-inf'</span>)
+    <span class="kw">for</span> s, e <span class="kw">in</span> intervals:
+        <span class="kw">if</span> s >= end:
+            count += <span class="nm">1</span>
+            end = e
+    <span class="kw">return</span> count`
+          },
+          {
+            title: "Greedy Patterns",
+            badge: "both",
+            theory: "Learn repeated motifs like sorting by end time, taking the best next candidate, and repeatedly combining the cheapest options as in Huffman coding.",
+            code: `<span class="kw">import</span> heapq
+
+<span class="kw">def</span> <span class="fn">huffman_cost</span>(freqs):
+    heapq.heapify(freqs)
+    cost = <span class="nm">0</span>
+    <span class="kw">while</span> len(freqs) > <span class="nm">1</span>:
+        a = heapq.heappop(freqs)
+        b = heapq.heappop(freqs)
+        cost += a + b
+        heapq.heappush(freqs, a + b)
+    <span class="kw">return</span> cost`
+          },
+          {
+            title: "Backtracking",
+            badge: "both",
+            theory: "Choose a move, recurse, then undo the move. The shape of the state and the pruning rule matter more than the language.",
+            code: `<span class="kw">def</span> <span class="fn">permutations</span>(nums):
+    res = []
+    <span class="kw">def</span> <span class="fn">bt</span>(path, used):
+        <span class="kw">if</span> len(path) == len(nums):
+            res.append(path[:])
+            <span class="kw">return</span>
+        <span class="kw">for</span> i, x <span class="kw">in</span> enumerate(nums):
+            <span class="kw">if</span> used[i]:
+                <span class="kw">continue</span>
+            used[i] = <span class="kw">True</span>
+            path.append(x)
+            bt(path, used)
+            path.pop()
+            used[i] = <span class="kw">False</span>
+    bt([], [<span class="kw">False</span>] * len(nums))
+    <span class="kw">return</span> res`
+          },
+          {
+            title: "Backtracking Templates",
+            badge: "both",
+            theory: "Keep explicit templates for subsets, permutations, combination sum, and N-Queens. These appear too often to improvise from scratch every time.",
+            complexity: [["O(2^n)", "Subsets"], ["O(n!)", "Permutations"], ["Exponential", "General"]],
+            code: `<span class="cm"># Subsets</span>
+<span class="kw">def</span> <span class="fn">subsets</span>(nums):
+    res = []
+    <span class="kw">def</span> <span class="fn">bt</span>(idx, path):
+        res.append(path[:])
+        <span class="kw">for</span> i <span class="kw">in</span> range(idx, len(nums)):
+            path.append(nums[i])
+            bt(i + <span class="nm">1</span>, path)
+            path.pop()
+    bt(<span class="nm">0</span>, [])
+
+<span class="cm"># Combination Sum</span>
+<span class="kw">def</span> <span class="fn">combination_sum</span>(cand, target):
+    res = []`,
+            tip: "Prune aggressively. Good backtracking is mostly about rejecting bad partial states early."
+          }
+        ]
+      },
+      {
+        id: "bits",
+        label: "Bit Manipulation",
+        dot: "#ff7f97",
+        topics: [
+          {
+            title: "Bit Operations",
+            badge: "both",
+            theory: "Know how to test, set, clear, toggle, count, and isolate bits. These are constant-time building blocks for many CP tricks.",
+            code: `n & (<span class="nm">1</span> << k)     <span class="cm"># test bit</span>
+n | (<span class="nm">1</span> << k)     <span class="cm"># set bit</span>
+n & ~(<span class="nm">1</span> << k)  <span class="cm"># clear bit</span>
+n ^ (<span class="nm">1</span> << k)     <span class="cm"># toggle bit</span>
+n & (n - <span class="nm">1</span>)      <span class="cm"># remove lowest set bit</span>
+n & (-n)           <span class="cm"># isolate lowest set bit</span>`
+          },
+          {
+            title: "Bitmasking Patterns & XOR Properties",
+            badge: "both",
+            theory: "Use an integer as a subset container. Also memorize the XOR laws: a ^ a = 0, a ^ 0 = a, and XOR is commutative and associative.",
+            complexity: [["O(2^n)", "All subsets"], ["O(1)", "Bit tricks"]],
+            code: `<span class="kw">def</span> <span class="fn">subsets_bits</span>(nums):
+    res = []
+    n = len(nums)
+    <span class="kw">for</span> mask <span class="kw">in</span> range(<span class="nm">1</span> << n):
+        cur = [nums[i] <span class="kw">for</span> i <span class="kw">in</span> range(n) <span class="kw">if</span> mask >> i & <span class="nm">1</span>]
+        res.append(cur)
+    <span class="kw">return</span> res
+
+<span class="kw">def</span> <span class="fn">single_number</span>(nums):
+    ans = <span class="nm">0</span>
+    <span class="kw">for</span> x <span class="kw">in</span> nums:
+        ans ^= x
+    <span class="kw">return</span> ans`,
+            tip: "For n <= 20, brute force with subset masks is often fast enough and much simpler than a more clever idea."
+          }
+        ]
+      },
+      {
+        id: "strings_algo",
+        label: "String Algorithms",
+        dot: "#57d9be",
+        topics: [
+          {
+            title: "KMP",
+            badge: "cp",
+            theory: "Precompute the longest prefix-suffix table so mismatches do not restart matching from zero. This gives O(n + m) pattern matching.",
+            code: `<span class="kw">def</span> <span class="fn">build_lps</span>(pattern):
+    lps = [<span class="nm">0</span>] * len(pattern)
+    j = <span class="nm">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">1</span>, len(pattern)):
+        <span class="kw">while</span> j > <span class="nm">0</span> <span class="kw">and</span> pattern[i] != pattern[j]:
+            j = lps[j - <span class="nm">1</span>]
+        <span class="kw">if</span> pattern[i] == pattern[j]:
+            j += <span class="nm">1</span>
+        lps[i] = j
+    <span class="kw">return</span> lps`
+          },
+          {
+            title: "Rolling Hash",
+            badge: "cp",
+            theory: "Convert substrings into numeric fingerprints. With prefix hashes and powers, substring equality checks become O(1).",
+            complexity: [["O(n)", "Build"], ["O(1)", "Substring query"]],
+            code: `MOD = <span class="nm">10</span>**<span class="nm">9</span> + <span class="nm">7</span>
+BASE = <span class="nm">911382323</span>
+
+<span class="kw">def</span> <span class="fn">build_hash</span>(s):
+    pref = [<span class="nm">0</span>] * (len(s) + <span class="nm">1</span>)
+    pw = [<span class="nm">1</span>] * (len(s) + <span class="nm">1</span>)`
+          },
+          {
+            title: "Z Algorithm & Rabin-Karp",
+            badge: "cp",
+            theory: "The Z-function matches prefixes from every index, while Rabin-Karp uses rolling hashes for average-case fast pattern search.",
+            code: `<span class="kw">def</span> <span class="fn">z_function</span>(s):
+    z = [<span class="nm">0</span>] * len(s)
+    l = r = <span class="nm">0</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">1</span>, len(s)):
+        <span class="kw">if</span> i < r:
+            z[i] = min(r - i, z[i - l])`
+          }
+        ]
+      },
+      {
+        id: "range_queries",
+        label: "Range Queries",
+        dot: "#9388ff",
+        topics: [
+          {
+            title: "Segment Tree",
+            badge: "cp",
+            theory: "Supports range query and update operations in logarithmic time. Lazy propagation is the standard extension for range updates.",
+            code: `<span class="kw">class</span> <span class="fn">SegTree</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n):
+        self.tree = [<span class="nm">0</span>] * (n * <span class="nm">4</span>)`
+          },
+          {
+            title: "Fenwick Tree (BIT)",
+            badge: "cp",
+            theory: "A simpler structure than a segment tree for prefix sums and point updates. Built around the lowest set bit trick.",
+            code: `<span class="kw">class</span> <span class="fn">BIT</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, n):
+        self.n = n
+        self.tree = [<span class="nm">0</span>] * (n + <span class="nm">1</span>)`
+          }
+        ]
+      },
+      {
+        id: "math",
+        label: "Math for CP",
+        dot: "#62a8ff",
+        topics: [
+          {
+            title: "GCD, LCM & Sieve",
+            badge: "cp",
+            theory: "Euclid's algorithm and prime sieving appear constantly in number theory problems, divisibility, counting, and factorization tasks.",
+            code: `<span class="kw">import</span> math
+
+g = math.gcd(<span class="nm">12</span>, <span class="nm">18</span>)
+l = (<span class="nm">12</span> * <span class="nm">18</span>) // g`
+          },
+          {
+            title: "Modular Inverse & Fermat's Little Theorem",
+            badge: "cp",
+            theory: "When MOD is prime, `a^(MOD-2) mod MOD` gives the inverse of `a`. This is one of the most important contest math tricks.",
+            complexity: [["O(log MOD)", "Single inverse"]],
+            code: `MOD = <span class="nm">10</span>**<span class="nm">9</span> + <span class="nm">7</span>
+
+<span class="kw">def</span> <span class="fn">mod_inv</span>(a, mod=MOD):
+    <span class="kw">return</span> pow(a, mod - <span class="nm">2</span>, mod)`
+          },
+          {
+            title: "Modular Arithmetic & Fast Exponentiation",
+            badge: "cp",
+            theory: "Binary exponentiation computes powers in O(log n), and modular factorial precomputation helps with combinations and counting problems.",
+            code: `<span class="kw">def</span> <span class="fn">fast_pow</span>(base, exp, mod):
+    ans = <span class="nm">1</span>
+    base %= mod
+    <span class="kw">while</span> exp > <span class="nm">0</span>:
+        <span class="kw">if</span> exp & <span class="nm">1</span>:
+            ans = ans * base % mod
+        base = base * base % mod
+        exp >>= <span class="nm">1</span>
+    <span class="kw">return</span> ans`
+          }
+        ]
+      }
+    ];
+
+    const NAV_SECTIONS = [
+      { label: "Core", ids: ["fundamentals", "arrays", "search_sort"] },
+      { label: "Data Structures", ids: ["hashing", "linked_lists", "stacks_queues", "trees"] },
+      { label: "Algorithms", ids: ["graphs", "dp", "greedy", "bits"] },
+      { label: "CP Essentials", ids: ["strings_algo", "range_queries", "math"] }
+    ];
+
+    const BADGE_LABELS = { core: "Core", interview: "Interview", cp: "CP", both: "Both" };
+    const STORAGE_KEY = "aditya-dsa-progress-v2";
+    
+    let activeSection = "fundamentals";
+    let activeFilter = "all";
+    let searchQuery = "";
+    let progressState = {};
+    let appInitialized = false;
+
+    function canUseStorage() {
+      try {
+        const probeKey = "__dsa_storage_probe__";
+        localStorage.setItem(probeKey, "1");
+        localStorage.removeItem(probeKey);
+        return true;
+      } catch (err) {
+        return false;
+      }
+    }
+
+    function normalizeProgressState(raw) {
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+        return {};
+      }
+      return Object.fromEntries(
+        Object.entries(raw).map(([key, value]) => [key, !!value])
+      );
+    }
+
+    async function loadProgress() {
+      if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.load_progress === "function") {
+        try {
+          const data = await window.pywebview.api.load_progress();
+          return normalizeProgressState(data);
+        } catch (err) {
+          console.warn("Could not load progress from desktop storage.", err);
+        }
+      }
+      if (!canUseStorage()) {
+        return {};
+      }
+      try {
+        return normalizeProgressState(JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"));
+      } catch (err) {
+        return {};
+      }
+    }
+
+    async function saveProgress() {
+      const normalized = normalizeProgressState(progressState);
+      if (window.pywebview && window.pywebview.api && typeof window.pywebview.api.save_progress === "function") {
+        try {
+          await window.pywebview.api.save_progress(normalized);
+          return;
+        } catch (err) {
+          console.warn("Could not save progress to desktop storage.", err);
+        }
+      }
+      if (!canUseStorage()) {
+        return;
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+      } catch (err) {
+        console.warn("Could not persist progress state.", err);
+      }
+    }
+
+    async function initializeApp(forceBridge = false) {
+      if (forceBridge && !(window.pywebview && window.pywebview.api)) {
+        return;
+      }
+      if (appInitialized && !forceBridge) {
+        return;
+      }
+      progressState = await loadProgress();
+      appInitialized = true;
+      buildDashboard();
+      buildNav();
+      buildMain();
+    }
+
+    function topicId(sectionId, topicTitle) {
+
+      return `${sectionId}::${topicTitle}`;
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function escapeRegex(value) {
+      return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function highlightText(text) {
+      if (!searchQuery) return text;
+      const pattern = new RegExp(`(${escapeRegex(searchQuery)})`, "ig");
+      return escapeHtml(text).replace(pattern, "<mark>$1</mark>");
+    }
+
+    function sectionStats(section) {
+      const total = section.topics.length;
+      const completed = section.topics.filter(topic => progressState[topicId(section.id, topic.title)]).length;
+      return { total, completed, percent: total ? Math.round(completed / total * 100) : 0 };
+    }
+
+    function globalStats() {
+      const sections = DATA.length;
+      const topics = DATA.reduce((sum, sec) => sum + sec.topics.length, 0);
+      const completed = DATA.reduce((sum, sec) => sum + sec.topics.filter(topic => progressState[topicId(sec.id, topic.title)]).length, 0);
+      const percent = topics ? Math.round(completed / topics * 100) : 0;
+      const completedSections = DATA.filter(sec => sectionStats(sec).completed === sec.topics.length).length;
+      const streak = Math.max(1, Math.min(14, Math.floor(completed / 3) + 1));
+      return { sections, topics, completed, percent, completedSections, streak };
+    }
+
+    function topicMatches(topic) {
+      const badgeMatch = activeFilter === "all" || topic.badge === activeFilter;
+      const haystack = `${topic.title} ${topic.theory || ""} ${topic.tip || ""}`.toLowerCase();
+      const textMatch = !searchQuery || haystack.includes(searchQuery);
+      return badgeMatch && textMatch;
+    }
+
+    function sectionMatches(section) {
+      return section.topics.some(topicMatches);
+    }
+
+    function buildDashboard() {
+      const stats = globalStats();
+      const cards = [
+        { label: "Topics", value: stats.topics, sub: `${stats.completed} completed so far` },
+        { label: "Sections", value: stats.sections, sub: `${stats.completedSections} fully cleared` },
+        { label: "Progress", value: `${stats.percent}%`, sub: "Saved automatically on this device" },
+        { label: "Streak", value: `${stats.streak}d`, sub: "Momentum indicator" }
+      ];
+      document.getElementById("dashboardStats").innerHTML = cards.map(card => `
+        <article class="stat-card scroll-reveal">
+          <div class="stat-label">${card.label}</div>
+          <div class="stat-value">${card.value}</div>
+          <div class="stat-sub">${card.sub}</div>
+        </article>
+      `).join("");
+      document.getElementById("heroProgressFill").style.width = `${stats.percent}%`;
+      document.getElementById("heroProgressText").textContent = `${stats.percent}% complete across ${stats.topics} topics`;
+    }
+
+    function buildNav() {
+      const nav = document.getElementById("navList");
+      nav.innerHTML = "";
+
+      NAV_SECTIONS.forEach(sectionGroup => {
+        const visibleIds = sectionGroup.ids.filter(id => sectionMatches(DATA.find(sec => sec.id === id)));
+        if (!visibleIds.length) return;
+
+        const groupEl = document.createElement("div");
+        groupEl.className = "section-group";
+        groupEl.innerHTML = `
+          <div class="section-group-label">
+            <span>${sectionGroup.label}</span>
+            <span>${visibleIds.length}</span>
+          </div>
+        `;
+
+        visibleIds.forEach(id => {
+          const section = DATA.find(sec => sec.id === id);
+          const stats = sectionStats(section);
+          const item = document.createElement("button");
+          item.type = "button";
+          item.className = `nav-item${activeSection === id ? " active" : ""}`;
+          item.dataset.id = id;
+          item.innerHTML = `
+            <span class="nav-dot" style="background:${section.dot};"></span>
+            <div class="nav-meta">
+              <span class="nav-label">${highlightText(section.label)}</span>
+              <div class="nav-progress">
+                <div class="nav-progress-fill" style="width:${stats.percent}%;"></div>
+              </div>
+            </div>
+            <span class="nav-progress-text">${stats.percent}%</span>
+          `;
+          item.addEventListener("click", () => {
+            showSection(id);
+            if (window.innerWidth <= 900) {
+              document.getElementById("sidebar").classList.remove("open");
+            }
+          });
+          groupEl.appendChild(item);
+        });
+
+        nav.appendChild(groupEl);
+      });
+    }
+
+    function topicBadge(badge) {
+      return BADGE_LABELS[badge] || badge;
+    }
+
+    function buildMiniStats(section) {
+      const counts = { core: 0, interview: 0, cp: 0, both: 0 };
+      section.topics.forEach(topic => counts[topic.badge] = (counts[topic.badge] || 0) + 1);
+      return Object.entries(counts)
+        .filter(([, value]) => value)
+        .map(([key, value]) => `
+          <div class="mini-stat">
+            <div class="num">${value}</div>
+            <div class="lbl">${topicBadge(key)}</div>
+          </div>
+        `)
+        .join("");
+    }
+
+    function buildTopicCard(section, topic) {
+      const id = topicId(section.id, topic.title);
+      const checked = !!progressState[id];
+      const complexityHtml = topic.complexity ? `
+        <div class="complexity-row">
+          ${topic.complexity.map(([value, label]) => `<div class="complexity-pill"><span>${label}</span>${value}</div>`).join("")}
+        </div>
+      ` : "";
+
+      const codeHtml = topic.code ? `
+        <div class="code-shell">
+          <div class="code-head">
+            <div class="code-head-left">
+              <div class="window-dots"><span></span><span></span><span></span></div>
+              <div class="code-label">Python Implementation</div>
+            </div>
+            <button class="copy-btn" type="button" data-copy="${id}">Copy code</button>
+          </div>
+          <pre id="code-${id.replace(/[^a-z0-9]/gi, "-")}">${topic.code}</pre>
+        </div>
+      ` : "";
+
+      const tipHtml = topic.tip ? `<div class="tip-block"><strong>Tip:</strong> ${topic.tip}</div>` : "";
+
+      return `
+        <article class="topic-card scroll-reveal${checked ? " completed" : ""}">
+          <div class="topic-header" data-toggle-card>
+            <input class="topic-check" type="checkbox" aria-label="Mark ${topic.title} complete" ${checked ? "checked" : ""} data-topic-check="${id}">
+            <div class="topic-title-wrap">
+              <h3 class="topic-title">${highlightText(topic.title)}</h3>
+              <div class="topic-meta">
+                <span class="topic-badge badge-${topic.badge}" title="${topicBadge(topic.badge)} focus">${topicBadge(topic.badge)}</span>
+              </div>
+            </div>
+            <div class="toggle-icon">></div>
+          </div>
+          <div class="topic-content">
+            <div class="topic-content-inner">
+              <div class="topic-body">
+                <div class="theory-block">${topic.theory}</div>
+                ${complexityHtml}
+                ${codeHtml}
+                ${tipHtml}
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function buildMain() {
+      const main = document.getElementById("mainArea");
+      main.innerHTML = "";
+
+      const visibleSections = DATA.filter(sectionMatches);
+
+      if (!visibleSections.length) {
+        main.innerHTML = `<div class="empty-state">No topics match your current search and filter. Try a broader keyword or switch back to <strong>All</strong>.</div>`;
+        return;
+      }
+
+      if (!visibleSections.some(sec => sec.id === activeSection)) {
+        activeSection = visibleSections[0].id;
+      }
+
+      visibleSections.forEach(section => {
+        const filteredTopics = section.topics.filter(topicMatches);
+        const stats = sectionStats(section);
+        const completedVisible = filteredTopics.filter(topic => progressState[topicId(section.id, topic.title)]).length;
+        const visiblePercent = filteredTopics.length ? Math.round(completedVisible / filteredTopics.length * 100) : 0;
+
+        const sectionEl = document.createElement("section");
+        sectionEl.className = `section-content${activeSection === section.id ? " visible" : ""}`;
+        sectionEl.id = `sec-${section.id}`;
+        sectionEl.innerHTML = `
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">${section.label}</h2>
+              <p class="section-subtitle">${filteredTopics.length} visible topic${filteredTopics.length === 1 ? "" : "s"} in this section.</p>
+            </div>
+            <aside class="section-progress-card">
+              <h3>Section progress</h3>
+              <p>${stats.completed}/${stats.total} total topics complete</p>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${visiblePercent}%;"></div>
+              </div>
+            </aside>
+          </div>
+          <div class="stats-row">${buildMiniStats(section)}</div>
+          <div class="topic-list">${filteredTopics.map(topic => buildTopicCard(section, topic)).join("")}</div>
+        `;
+        main.appendChild(sectionEl);
+      });
+
+      wireInteractions();
+      updateTopbar();
+      applyRevealState();
+    }
+
+    function wireInteractions() {
+      document.querySelectorAll("[data-toggle-card]").forEach(header => {
+        header.addEventListener("click", event => {
+          if (event.target.matches(".topic-check")) return;
+          header.closest(".topic-card").classList.toggle("collapsed");
+        });
+      });
+
+      document.querySelectorAll("[data-topic-check]").forEach(check => {
+        check.addEventListener("change", event => {
+          progressState[event.target.dataset.topicCheck] = event.target.checked;
+          saveProgress();
+          buildDashboard();
+          buildNav();
+          buildMain();
+        });
+      });
+
+      document.querySelectorAll("[data-copy]").forEach(button => {
+        button.addEventListener("click", () => {
+          const codeBlock = button.closest(".code-shell").querySelector("pre");
+          const text = codeBlock.innerText;
+          navigator.clipboard.writeText(text).then(() => {
+            const original = button.textContent;
+            button.textContent = "Copied";
+            setTimeout(() => button.textContent = original, 1200);
+          });
+        });
+      });
+    }
+
+    function showSection(id) {
+      activeSection = id;
+      document.querySelectorAll(".section-content").forEach(el => {
+        el.classList.toggle("visible", el.id === `sec-${id}`);
+      });
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.toggle("active", item.dataset.id === id);
+      });
+      document.getElementById("mainScroll").scrollTo({ top: 0, behavior: "smooth" });
+      updateTopbar();
+    }
+
+    function updateTopbar() {
+      const section = DATA.find(sec => sec.id === activeSection);
+      if (!section) return;
+      const stats = sectionStats(section);
+      document.getElementById("topbarSubtitle").textContent = `${section.label} | ${stats.completed}/${stats.total} complete | ${stats.percent}% progress`;
+    }
+
+    function updateFilterButtons() {
+      document.querySelectorAll(".filter-chip").forEach(button => {
+        button.classList.toggle("active", button.dataset.filter === activeFilter);
+      });
+    }
+
+    document.getElementById("searchInput").addEventListener("input", event => {
+      searchQuery = event.target.value.trim().toLowerCase();
+      buildNav();
+      buildMain();
+    });
+
+    document.getElementById("filterBar").addEventListener("click", event => {
+      const button = event.target.closest(".filter-chip");
+      if (!button) return;
+      activeFilter = button.dataset.filter;
+      updateFilterButtons();
+      buildNav();
+      buildMain();
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("sidebar").classList.toggle("open");
+    });
+
+    document.getElementById("backToTop").addEventListener("click", () => {
+      document.getElementById("mainScroll").scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    window.addEventListener("storage", event => {
+      if (event.key === STORAGE_KEY) {
+        loadProgress().then(state => {
+          progressState = state;
+          buildDashboard();
+          buildNav();
+          buildMain();
+        });
+      }
+    });
+
+    function applyRevealState() {
+      const nodes = document.querySelectorAll(".scroll-reveal");
+      const viewportBottom = window.innerHeight * 0.92;
+      nodes.forEach(node => {
+        const rect = node.getBoundingClientRect();
+        if (rect.top < viewportBottom) {
+          node.classList.add("in-view");
+        }
+      });
+    }
+
+    document.getElementById("mainScroll").addEventListener("scroll", applyRevealState);
+
+    updateFilterButtons();
+    window.addEventListener("pywebviewready", () => initializeApp(true));
+    setTimeout(() => {
+      if (!appInitialized) {
+        initializeApp();
+      }
+    }, 60);
+  </script>
+</body>
+</html>
+
+
+
