@@ -71,27 +71,6 @@ The built executable will be created in:
 ```text
 dist\AlgoDesk.exe
 ```
-
-## Files to Share for Rebuild
-
-If someone wants to rebuild the app, these are the important files:
-
-- `app.py`
-- `dsa_notes_interview_cp.html`
-- `dsa_notes_interview_cp.css`
-- `AlgoDesk.spec`
-- `icon1.ico`
-- `requirements.txt`
-
-## Do Not Commit
-
-These should stay out of Git:
-
-- `build/`
-- `dist/`
-- `__pycache__/`
-- local app progress JSON from `%APPDATA%\AlgoDesk\state.json`
-
 ## Notes
 
 - The app UI is dynamic and rendered from local JavaScript data.
